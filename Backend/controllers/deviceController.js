@@ -26,6 +26,7 @@ const deviceController = {
       });
     }
   },
+
   //@ TO Fetch All the Device per UserID
   getDeviceByuserId: async (req, res) => {
     const user = req.params.userid;
@@ -37,6 +38,33 @@ const deviceController = {
       message: "success",
       data: reqData,
     });
+  },
+
+  //@ TO Delete Device
+  deleteDevice: async (req, res) => {
+    try {
+      const { DeviceID } = req.body;
+      const device = await Device.findById(DeviceID);
+      if (device) {
+        const DataAfterDelete = await Device.findByIdAndDelete({
+          _id: DeviceID,
+        });
+        res.status(200).send({
+          message: "Device Deleted!",
+          success: true,
+        });
+      } else {
+        res.status(400).send({
+          success: false,
+          message: "Device Already Deleted!",
+        });
+      }
+    } catch (err) {
+      res.status(500).send({
+        success: false,
+        message: "Servers Are Busy Try Again After Some Time!",
+      });
+    }
   },
 
   //@ TO Add Device Data to Device by Device ID
@@ -75,6 +103,7 @@ const deviceController = {
       });
     }
   },
+
   //@TO Fetch Device Data
   getDeviceData: async (req, res) => {
     const device = req.params.deviceid;

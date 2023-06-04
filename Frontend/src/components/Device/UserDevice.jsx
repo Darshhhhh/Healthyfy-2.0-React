@@ -56,6 +56,15 @@ function UserDevice() {
         </button>
       ),
     },
+    {
+      name: "Delete",
+      width: "140px",
+      selector: (row) => (
+        <button className="active_btn" onClick={() => DeleteDevice(row._id)}>
+          Delete
+        </button>
+      ),
+    },
   ];
   //@ TO Active Deactive Device
   const ActiveDeactiveDevice = (deviceID, status) => {
@@ -79,6 +88,29 @@ function UserDevice() {
         } else {
           errorToast(response.data.message);
         }
+        FetchAllDevice();
+      })
+      .catch((err) => {
+        errorToast(err.response.data.message);
+      });
+  };
+  //@ TO Delet Device
+  const DeleteDevice = (deviceID) => {
+    var TOKEN = sessionStorage.getItem("token");
+    var API_URL = GlobalConstants.domain + "api/device/deletedevice";
+    var DATA_TO_SEND = {
+      DeviceID: deviceID,
+    };
+    let headerConfig = {
+      headers: {
+        accept: "application/json",
+        authorization: "Bearer " + TOKEN,
+      },
+    };
+    axios
+      .post(API_URL, DATA_TO_SEND, headerConfig)
+      .then((response) => {
+        errorToast(response.data.message);
         FetchAllDevice();
       })
       .catch((err) => {
