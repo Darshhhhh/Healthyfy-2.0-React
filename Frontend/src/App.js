@@ -4,6 +4,7 @@ import LoginPage from "./components/Login/LoginPage";
 import RegisterPage from "./components/Register/RegisterPage";
 import DashboardPage from "./components/Dashboard/DashboardPage";
 import ProfilePage from "./components/Profile/ProfilePage";
+import UserDevice from "./components/Device/UserDevice";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <Route path="/user/register" element={<RegisterPage />} />
         <Route path="/user/dashboard" element={<DashboardPage />} />
         <Route path="/user/profile" element={<ProfilePage />} />
-        <Route path="/user/device" element={<ProfilePage />} />
+        <Route path="/user/device" element={<UserDevice />} />
       </Routes>
     </BrowserRouter>
   );

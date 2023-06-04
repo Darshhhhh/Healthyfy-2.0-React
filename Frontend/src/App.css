@@ -21,3 +21,15 @@ input:focus {
 .sign_btn {
   @apply rounded-full border border-[#47A992] bg-[#47A992] py-1.5 px-5 w-[150px] text-sm text-white transition-all hover:bg-white hover:text-black;
 }
+.Create_btn {
+  @apply rounded-md border border-[#FD8A8A] bg-[#FD8A8A] py-2 px-2 w-[150px] text-sm text-white transition-all hover:bg-white hover:text-black;
+}
+.normal_btn {
+  @apply rounded-md border border-black bg-black px-3 py-0.5 text-sm text-white hover:bg-white hover:text-black;
+}
+.active_btn {
+  @apply rounded-full border border-[#36AE7C] bg-[#36AE7C] px-2 text-sm text-white;
+}
+.deactive_btn {
+  @apply rounded-full border border-[#EB4747] bg-[#EB4747] px-2 text-sm text-white;
+}
