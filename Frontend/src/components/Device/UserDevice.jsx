@@ -30,9 +30,13 @@ function UserDevice() {
       width: "140px",
       selector: (row) =>
         row?.isActive === true ? (
-          <button className="active_btn">Active</button>
+          <button className="active_btn" disabled>
+            Active
+          </button>
         ) : (
-          <button className="deactive_btn">Deactive</button>
+          <button className="deactive_btn" disabled>
+            Deactive
+          </button>
         ),
     },
 
@@ -40,12 +44,23 @@ function UserDevice() {
       name: "Change Status",
       width: "200px",
       selector: (row) => (
-        <button className="normal_btn">
+        <button
+          className="normal_btn"
+          onClick={() =>
+            row?.isActive === true
+              ? ActiveDeactiveDevice(row.devicename, row._id, false)
+              : ActiveDeactiveDevice(row.devicename, row._id, true)
+          }
+        >
           {row?.isActive === true ? "Turn Off" : "Turn On"}
         </button>
       ),
     },
   ];
+  //@ TO Active Deactive Device
+  const ActiveDeactiveDevice = (deviceName, deviceID, status) => {
+    console.log(deviceName, deviceID, status);
+  };
   //@ TO Insert New Device Per User
   const SaveDevice = () => {
     if (DeviceName === "") {
