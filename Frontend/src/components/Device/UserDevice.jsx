@@ -6,8 +6,10 @@ import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
 import { errorToast, successToast } from "../../utils/GlobalToaster";
 import { ToastContainer } from "react-toastify";
+import Loader from "../../utils/Loader/Loader";
 
 function UserDevice() {
+  const [isLoadig, setIsLoading] = useState(false);
   const [TableData, setTableData] = useState([]);
   const [AddDevicePopup, setAddDevicePopup] = useState(false);
   const [DeviceName, setDeviceName] = useState("");
@@ -75,6 +77,7 @@ function UserDevice() {
   };
   //@ TO Fetch All the Device Whic User Registered
   const FetchAllDevice = () => {
+    setIsLoading(true);
     var USER_ID = sessionStorage.getItem("user-id");
     var TOKEN = sessionStorage.getItem("token");
     var API_URL = GlobalConstants.domain + "api/device/" + USER_ID;
@@ -88,9 +91,11 @@ function UserDevice() {
       .get(API_URL, headerConfig)
       .then((response) => {
         setTableData(response.data.data);
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setIsLoading(false);
       });
   };
   useEffect(() => {
@@ -119,17 +124,23 @@ function UserDevice() {
             </button>
           </div>
         </div>
-        <hr class="h-px my-2 border-0 dark:bg-gray-300"></hr>
-        <div className="mt-5">
-          <DataTable
-            columns={columns}
-            data={TableData}
-            highlightOnHover
-            fixedHeader={true}
-            fixedHeaderScrollHeight="80vh"
-            customStyles={customStyles}
-          />
-        </div>
+        <hr className="h-px my-2 border-0 dark:bg-gray-300"></hr>
+        {isLoadig ? (
+          <div className="flex justify-center align-middle items-center mt-[30vh]">
+            <Loader />
+          </div>
+        ) : (
+          <div className="mt-5">
+            <DataTable
+              columns={columns}
+              data={TableData}
+              highlightOnHover
+              fixedHeader={true}
+              fixedHeaderScrollHeight="80vh"
+              customStyles={customStyles}
+            />
+          </div>
+        )}
       </main>
       {AddDevicePopup ? (
         <Transition.Root show={AddDevicePopup} as={Fragment}>
@@ -167,7 +178,7 @@ function UserDevice() {
                       <div className="sm:flex sm:items-center justify-center">
                         <h1 className="text-xl font-bold">Add New Device</h1>
                       </div>
-                      <hr class="h-px my-2 border-0 dark:bg-gray-300"></hr>
+                      <hr className="h-px my-2 border-0 dark:bg-gray-300"></hr>
                       <div className="flex flex-wrap gap-6 mt-1">
                         <div>
                           <h4 className="my-2">Device Name :</h4>
