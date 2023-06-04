@@ -68,16 +68,19 @@ const RegisterPage = () => {
             <input
               className="w-[300px] my-3"
               placeholder="Email"
+              type="email"
               onBlur={(e) => setEmail(e.target.value)}
             />
             <input
               className="w-[300px] my-3"
               placeholder="Password"
+              type="password"
               onBlur={(e) => setPassword(e.target.value)}
             />
             <input
               className="w-[300px] my-3"
               placeholder="Confirm Password"
+              type="password"
               onBlur={(e) => setConfirmPassword(e.target.value)}
             />
             <div>

@@ -1,12 +1,7 @@
 import axios from "axios";
-import { EMAIL_REGEX, GlobalConstants } from "../../utils/GlobalConstants";
+import { GlobalConstants } from "../../utils/GlobalConstants";
 import { ToastContainer } from "react-toastify";
-import {
-  errorToast,
-  infoToast,
-  successToast,
-  warnToast,
-} from "../../utils/GlobalToaster";
+import { errorToast, successToast, warnToast } from "../../utils/GlobalToaster";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -16,9 +11,9 @@ function LoginPage() {
   const [Password, setPassword] = useState("");
   //@User Login API call
   const UserLogin = () => {
-    if (!Email.match(EMAIL_REGEX)) {
-      return infoToast("Enter Valid Email"); //Checking Email Formate
-    }
+    // if (!Email.match(EMAIL_REGEX)) {
+    //   return infoToast("Enter Valid Email"); //Checking Email Formate
+    // }
     if (Email === "" || Password === "") {
       return warnToast("Enter Email or Passoword!"); //Validation for Email Password
     }
@@ -30,14 +25,14 @@ function LoginPage() {
     axios
       .post(api_url, dataToBeSent)
       .then((resposne) => {
-        console.log(resposne);
+        // console.log(resposne);
         if (resposne.status === 200) {
           sessionStorage.setItem("token", resposne.data.token); //setting Token For Auth in Other APIs
           sessionStorage.setItem("user-email", resposne.data.data.email); //setting Email as Username
           sessionStorage.setItem("user-id", resposne.data.data.user_id); //setting user-id
           successToast(resposne.data.message);
           setTimeout(() => {
-            navigate(`/user/dashboard/${resposne.data.data.user_id}`);
+            navigate(`/user/dashboard`);
           }, 1000);
         }
       })
@@ -71,11 +66,13 @@ function LoginPage() {
             <input
               className="w-[300px] my-3"
               placeholder="Email"
+              type="email"
               onBlur={(e) => setEmail(e.target.value)}
             />
             <input
               className="w-[300px] my-3"
               placeholder="Password"
+              type="password"
               onBlur={(e) => setPassword(e.target.value)}
             />
 

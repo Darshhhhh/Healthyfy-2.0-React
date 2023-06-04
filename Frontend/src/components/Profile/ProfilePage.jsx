@@ -1,11 +1,11 @@
 import Navbar from "../Navbar/Navbar";
 
-const DashboardPage = () => {
+function ProfilePage() {
   return (
     <>
       <Navbar />
     </>
   );
-};
+}
 
-export default DashboardPage;
+export default ProfilePage;

@@ -1,11 +1,12 @@
+import React from "react";
 import Navbar from "../Navbar/Navbar";
 
-const DashboardPage = () => {
+function UserDevice() {
   return (
     <>
       <Navbar />
     </>
   );
-};
+}
 
-export default DashboardPage;
+export default UserDevice;
