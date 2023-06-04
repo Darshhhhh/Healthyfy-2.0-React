@@ -4,7 +4,8 @@ import Navbar from "../Navbar/Navbar";
 import DataTable from "react-data-table-component";
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
-import { successToast } from "../../utils/GlobalToaster";
+import { errorToast, successToast } from "../../utils/GlobalToaster";
+import { ToastContainer } from "react-toastify";
 
 function UserDevice() {
   const [TableData, setTableData] = useState([]);
@@ -26,7 +27,7 @@ function UserDevice() {
       name: "Status",
       width: "140px",
       selector: (row) =>
-        row.status === true ? (
+        row?.isActive === true ? (
           <button className="active_btn">Active</button>
         ) : (
           <button className="deactive_btn">Deactive</button>
@@ -38,7 +39,7 @@ function UserDevice() {
       width: "200px",
       selector: (row) => (
         <button className="normal_btn">
-          {row.status === true ? "Turn Off" : "Turn On"}
+          {row?.isActive === true ? "Turn Off" : "Turn On"}
         </button>
       ),
     },
@@ -50,6 +51,7 @@ function UserDevice() {
     var API_URL = GlobalConstants.domain + "api/device/create";
     var DATA_TO_SEND = {
       devicename: DeviceName,
+      deviececode: DeviceCode,
       user: USER_ID,
     };
     let headerConfig = {
@@ -65,9 +67,10 @@ function UserDevice() {
         successToast(response.data.message);
         setAddDevicePopup(false);
         FetchAllDevice();
+        CancelClicked();
       })
       .catch((err) => {
-        console.log(err);
+        errorToast(err.response.data.message);
       });
   };
   //@ TO Fetch All the Device Whic User Registered
@@ -209,6 +212,7 @@ function UserDevice() {
       ) : (
         ""
       )}
+      <ToastContainer />
     </>
   );
 }

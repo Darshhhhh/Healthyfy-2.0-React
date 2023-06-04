@@ -7,15 +7,22 @@ const deviceSchema = new mongoose.Schema(
       required: [true, "name is a required field"],
       trim: true,
     },
+    deviececode: {
+      type: String,
+      required: [true, "device code is a required field"],
+      trim: true,
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+    },
+    isActive: {
+      type: Boolean,
     },
     temparature: [],
     heartbeat: [],
     ecg: [],
     oxygen: [],
-    
   },
   {
     timestamps: true,

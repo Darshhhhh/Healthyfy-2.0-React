@@ -2,25 +2,31 @@ const { default: mongoose } = require("mongoose");
 const Device = require("../models/deviceModel");
 const User = require("../models/userModel");
 const deviceController = {
+  //@ TO Insert Device
   postDevice: async (req, res) => {
-    const { devicename, user } = req.body;
+    const { devicename, deviececode, user } = req.body;
 
-    if (!devicename) {
-      res.status(400);
-      throw new Error("Please Add Device Name!");
+    if (!devicename || !deviececode) {
+      res.status(400).send({
+        message: "Please Fill All the Details!",
+        success: false,
+      });
     } else {
       const device = new Device({
         devicename,
+        deviececode,
         user,
+        isActive: true,
       });
       const postedDevice = await device.save();
       res.status(201).send({
+        success: true,
         message: "New Device Added Successfully!",
         data: postedDevice,
       });
     }
   },
-
+  //@ TO Fetch All the Device per UserID
   getDeviceByuserId: async (req, res) => {
     const user = req.params.userid;
 
@@ -33,6 +39,7 @@ const deviceController = {
     });
   },
 
+  //@ TO Add Device Data to Device by Device ID
   addDeviceData: async (req, res) => {
     try {
       const { DeviceID, temparature, ecg, oxygen, heartbeat } = req.body;
@@ -68,6 +75,7 @@ const deviceController = {
       });
     }
   },
+  //@TO Fetch Device Data
   getDeviceData: async (req, res) => {
     const device = req.params.deviceid;
 
