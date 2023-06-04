@@ -4,7 +4,7 @@ import Navbar from "../Navbar/Navbar";
 import DataTable from "react-data-table-component";
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
-import { errorToast, successToast } from "../../utils/GlobalToaster";
+import { errorToast, successToast, warnToast } from "../../utils/GlobalToaster";
 import { ToastContainer } from "react-toastify";
 import Loader from "../../utils/Loader/Loader";
 
@@ -48,6 +48,12 @@ function UserDevice() {
   ];
   //@ TO Insert New Device Per User
   const SaveDevice = () => {
+    if (DeviceName === "") {
+      return warnToast("Please Add Device Name!");
+    }
+    if (DeviceCode === "") {
+      return warnToast("Please Add Device Code!");
+    }
     var USER_ID = sessionStorage.getItem("user-id");
     var TOKEN = sessionStorage.getItem("token");
     var API_URL = GlobalConstants.domain + "api/device/create";
