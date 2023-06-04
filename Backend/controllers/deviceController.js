@@ -85,6 +85,31 @@ const deviceController = {
       data: reqData,
     });
   },
+
+  //@TO Active Deactive Device
+  activeDeactiveDevice: async (req, res) => {
+    try {
+      const { DeviceID, isActive } = req.body;
+      var status = isActive;
+      const UpdateDeviceStatusData = await Device.findByIdAndUpdate(
+        { _id: DeviceID },
+        { isActive: status },
+        { new: true }
+      );
+      res.status(200).send({
+        success: true,
+        message: `Device is ${
+          isActive === true ? "Activated" : "Deactivated"
+        } Now!`,
+        data: UpdateDeviceStatusData,
+      });
+    } catch (err) {
+      res.status(500).send({
+        success: false,
+        message: "Servers Are Busy Try Again After Some Time!",
+      });
+    }
+  },
 };
 
 module.exports = deviceController;

@@ -16,9 +16,7 @@ const deviceSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    isActive: {
-      type: Boolean,
-    },
+    isActive: { type: Boolean, default: true },
     temparature: [],
     heartbeat: [],
     ecg: [],

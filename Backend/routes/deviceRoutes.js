@@ -13,4 +13,10 @@ deviceRouter.get(
   deviceController.getDeviceData
 );
 
+deviceRouter.post(
+  "/activedeactivedevice",
+  validateToken,
+  deviceController.activeDeactiveDevice
+);
+
 module.exports = deviceRouter;

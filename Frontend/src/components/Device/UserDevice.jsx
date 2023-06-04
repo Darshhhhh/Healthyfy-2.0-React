@@ -48,8 +48,8 @@ function UserDevice() {
           className="normal_btn"
           onClick={() =>
             row?.isActive === true
-              ? ActiveDeactiveDevice(row.devicename, row._id, false)
-              : ActiveDeactiveDevice(row.devicename, row._id, true)
+              ? ActiveDeactiveDevice(row._id, false)
+              : ActiveDeactiveDevice(row._id, true)
           }
         >
           {row?.isActive === true ? "Turn Off" : "Turn On"}
@@ -58,8 +58,32 @@ function UserDevice() {
     },
   ];
   //@ TO Active Deactive Device
-  const ActiveDeactiveDevice = (deviceName, deviceID, status) => {
-    console.log(deviceName, deviceID, status);
+  const ActiveDeactiveDevice = (deviceID, status) => {
+    var TOKEN = sessionStorage.getItem("token");
+    var API_URL = GlobalConstants.domain + "api/device/activedeactivedevice";
+    var DATA_TO_SEND = {
+      DeviceID: deviceID,
+      isActive: status,
+    };
+    let headerConfig = {
+      headers: {
+        accept: "application/json",
+        authorization: "Bearer " + TOKEN,
+      },
+    };
+    axios
+      .post(API_URL, DATA_TO_SEND, headerConfig)
+      .then((response) => {
+        if (status === true) {
+          successToast(response.data.message);
+        } else {
+          errorToast(response.data.message);
+        }
+        FetchAllDevice();
+      })
+      .catch((err) => {
+        errorToast(err.response.data.message);
+      });
   };
   //@ TO Insert New Device Per User
   const SaveDevice = () => {
