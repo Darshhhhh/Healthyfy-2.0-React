@@ -49,14 +49,21 @@ const deviceController = {
         const DataAfterDelete = await Device.findByIdAndDelete({
           _id: DeviceID,
         });
-        res.status(200).send({
-          message: "Device Deleted!",
-          success: true,
-        });
+        if (DataAfterDelete) {
+          return res.status(200).send({
+            message: "Device Deleted!",
+            success: true,
+          });
+        } else {
+          return res.status(500).send({
+            success: false,
+            message: "Error Occured While Deleting Device!",
+          });
+        }
       } else {
-        res.status(400).send({
+        return res.status(400).send({
           success: false,
-          message: "Device Already Deleted!",
+          message: "Device Doesn't Exists!",
         });
       }
     } catch (err) {
@@ -125,13 +132,22 @@ const deviceController = {
         { isActive: status },
         { new: true }
       );
-      res.status(200).send({
-        success: true,
-        message: `Device is ${
-          isActive === true ? "Activated" : "Deactivated"
-        } Now!`,
-        data: UpdateDeviceStatusData,
-      });
+      if (UpdateDeviceStatusData) {
+        return res.status(200).send({
+          success: true,
+          message: `Device is ${
+            isActive === true ? "Activated" : "Deactivated"
+          } Now!`,
+          data: UpdateDeviceStatusData,
+        });
+      } else {
+        return res.status(500).send({
+          success: false,
+          message: `Error Occured While ${
+            isActive === true ? "Activating" : "Deactivating "
+          } Device `,
+        });
+      }
     } catch (err) {
       res.status(500).send({
         success: false,
