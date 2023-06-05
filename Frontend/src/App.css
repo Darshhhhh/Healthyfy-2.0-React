@@ -15,6 +15,15 @@ input {
 input:focus {
   outline: none;
 }
+select {
+  background-color: #fff;
+  height: 40px;
+  border-radius: 4px;
+  border-bottom: 2px solid #3c404878;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  color: #3c4048;
+  padding-inline-start: 10;
+}
 .black_btn {
   @apply rounded-full border border-black bg-[#3c4048] py-1.5 px-5 text-sm text-white transition-all hover:bg-white hover:text-black;
 }
