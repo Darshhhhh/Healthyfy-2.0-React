@@ -42,7 +42,7 @@ function UserDevice() {
 
     {
       name: "Change Status",
-      width: "200px",
+      width: "160px",
       selector: (row) => (
         <button
           className="normal_btn"
@@ -60,7 +60,7 @@ function UserDevice() {
       name: "Delete",
       width: "140px",
       selector: (row) => (
-        <button className="active_btn" onClick={() => DeleteDevice(row._id)}>
+        <button className="delete_btn" onClick={() => DeleteDevice(row._id)}>
           Delete
         </button>
       ),

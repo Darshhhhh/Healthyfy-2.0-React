@@ -1,5 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import GuardedRoute from "./AuthGuard";
 import LoginPage from "./components/Login/LoginPage";
 import RegisterPage from "./components/Register/RegisterPage";
 import DashboardPage from "./components/Dashboard/DashboardPage";
@@ -12,9 +13,18 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/user/register" element={<RegisterPage />} />
-        <Route path="/user/dashboard" element={<DashboardPage />} />
-        <Route path="/user/profile" element={<ProfilePage />} />
-        <Route path="/user/device" element={<UserDevice />} />
+        <Route
+          path="/user/dashboard"
+          element={<GuardedRoute Component={DashboardPage} />}
+        />
+        <Route
+          path="/user/device"
+          element={<GuardedRoute Component={UserDevice} />}
+        />
+        <Route
+          path="/user/profile"
+          element={<GuardedRoute Component={ProfilePage} />}
+        />
       </Routes>
     </BrowserRouter>
   );

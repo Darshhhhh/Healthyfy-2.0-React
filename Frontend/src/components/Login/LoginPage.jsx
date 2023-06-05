@@ -49,7 +49,7 @@ function LoginPage() {
               <span className="text-3xl">
                 <b>H</b>
               </span>
-              ealthyfyy
+              ealthX
             </h1>
           </div>
           <button
