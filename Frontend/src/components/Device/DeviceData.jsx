@@ -1,11 +1,78 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
+import DataTable from "react-data-table-component";
+import { customStyles } from "../../utils/GlobalConstants";
+import moment from "moment";
 
 function DeviceData() {
   const data = useLocation();
   const SelectedDeviceData = data.state.DeviceData;
   console.log(SelectedDeviceData);
+  const ECGcolumns = [
+    {
+      name: "Sr No",
+      selector: (row, index) => index + 1,
+      width: "100px",
+    },
+    {
+      name: "ECG Value",
+      selector: (row) => row?.value + " BPM",
+    },
+    {
+      name: "ECG Checked On",
+      selector: (row) => moment(row?.rec_time).format("LLL"),
+      sortable: true,
+    },
+  ];
+  const Heartbeatcolumns = [
+    {
+      name: "Sr No",
+      selector: (row, index) => index + 1,
+      width: "100px",
+    },
+    {
+      name: "ECG Value",
+      selector: (row) => row?.value + " BPS",
+    },
+    {
+      name: "ECG Checked On",
+      selector: (row) => moment(row?.rec_time).format("LLL"),
+      sortable: true,
+    },
+  ];
+  const Tempcolumns = [
+    {
+      name: "Sr No",
+      selector: (row, index) => index + 1,
+      width: "100px",
+    },
+    {
+      name: "ECG Value",
+      selector: (row) => row?.value + " °C",
+    },
+    {
+      name: "ECG Checked On",
+      selector: (row) => moment(row?.rec_time).format("LLL"),
+      sortable: true,
+    },
+  ];
+  const Oxycolumns = [
+    {
+      name: "Sr No",
+      selector: (row, index) => index + 1,
+      width: "100px",
+    },
+    {
+      name: "ECG Value",
+      selector: (row) => row?.value + " SpO2",
+    },
+    {
+      name: "ECG Checked On",
+      selector: (row) => moment(row?.rec_time).format("LLL"),
+      sortable: true,
+    },
+  ];
   return (
     <>
       <Navbar />
@@ -13,6 +80,9 @@ function DeviceData() {
         {SelectedDeviceData[0]?.devicename}'s Data
       </h1>
       <h4 className="text-xl text-center font-semibold">Latest Readings</h4>
+      <p className="text-center font-normal">
+        ({moment(SelectedDeviceData[0]?.updatedAt).calendar()})
+      </p>
       {SelectedDeviceData.length > 0 &&
         SelectedDeviceData?.map((data, idx) => (
           <div className="px-10 py-5 flex flex-wrap gap-10 justify-center">
@@ -54,6 +124,61 @@ function DeviceData() {
             </div>
           </div>
         ))}
+      <hr className="h-px px-5 my-2 border-0 dark:bg-gray-300"></hr>
+      <div className="flex gap-10 px-10 flex-wrap justify-center">
+        <div className="mt-5 lg:w-[40%]">
+          <DataTable
+            columns={ECGcolumns}
+            data={SelectedDeviceData[0].ecg}
+            highlightOnHover
+            fixedHeader={true}
+            fixedHeaderScrollHeight="80vh"
+            customStyles={customStyles}
+            pagination
+            paginationPerPage={5}
+            title={"ECG Data"}
+          />
+        </div>
+        <div className="mt-5 lg:w-[40%]">
+          <DataTable
+            columns={Heartbeatcolumns}
+            data={SelectedDeviceData[0].heartbeat}
+            highlightOnHover
+            fixedHeader={true}
+            fixedHeaderScrollHeight="80vh"
+            customStyles={customStyles}
+            pagination
+            paginationPerPage={5}
+            title={"Heartbeat Data"}
+          />
+        </div>
+        <div className="mt-5 lg:w-[40%]">
+          <DataTable
+            columns={Tempcolumns}
+            data={SelectedDeviceData[0].temparature}
+            highlightOnHover
+            fixedHeader={true}
+            fixedHeaderScrollHeight="80vh"
+            customStyles={customStyles}
+            pagination
+            paginationPerPage={5}
+            title={"Temparature Data"}
+          />
+        </div>
+        <div className="mt-5 lg:w-[40%]">
+          <DataTable
+            columns={Oxycolumns}
+            data={SelectedDeviceData[0].oxygen}
+            highlightOnHover
+            fixedHeader={true}
+            fixedHeaderScrollHeight="80vh"
+            customStyles={customStyles}
+            pagination
+            paginationPerPage={5}
+            title={"Oxygen Data"}
+          />
+        </div>
+      </div>
     </>
   );
 }
