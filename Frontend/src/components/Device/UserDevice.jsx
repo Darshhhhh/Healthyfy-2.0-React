@@ -7,17 +7,29 @@ import axios from "axios";
 import { errorToast, successToast, warnToast } from "../../utils/GlobalToaster";
 import { ToastContainer } from "react-toastify";
 import Loader from "../../utils/Loader/Loader";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { resteDevicePerUser } from "../../redux/getAllDevicePerUserSlice";
+import { getDevicePerUser } from "../../redux/getAllDevicePerUserSlice";
 
 function UserDevice() {
   const dispatch = useDispatch();
+  const DevicePerUserData = useSelector((state) => state.DevicePerUser);
+
   const [isLoadig, setIsLoading] = useState(false);
   const [TableData, setTableData] = useState([]);
   const [AddDevicePopup, setAddDevicePopup] = useState(false);
   const [DeviceName, setDeviceName] = useState("");
   const [DeviceCode, setDeviceCode] = useState("");
   const cancelButtonRef = useRef(null);
+  useEffect(() => {
+    //@ TO Fetch All the Device Which User Registered
+    if (DevicePerUserData?.length === 0) {
+      dispatch(getDevicePerUser());
+    } else {
+      setIsLoading(false);
+      console.log("Data Already Fetched!");
+    }
+  }, [DevicePerUserData.length]);
   const columns = [
     {
       name: "Sr No",
@@ -91,8 +103,7 @@ function UserDevice() {
         } else {
           errorToast(response.data.message);
         }
-        FetchAllDevice();
-        dispatch(resteDevicePerUser());
+        dispatch(getDevicePerUser());
       })
       .catch((err) => {
         errorToast(err.response.data.message);
@@ -115,8 +126,7 @@ function UserDevice() {
       .post(API_URL, DATA_TO_SEND, headerConfig)
       .then((response) => {
         errorToast(response.data.message);
-        FetchAllDevice();
-        dispatch(resteDevicePerUser());
+        dispatch(getDevicePerUser());
       })
       .catch((err) => {
         errorToast(err.response.data.message);
@@ -150,40 +160,13 @@ function UserDevice() {
         console.log(response);
         successToast(response.data.message);
         setAddDevicePopup(false);
-        FetchAllDevice();
+        dispatch(getDevicePerUser());
         CancelClicked();
-        dispatch(resteDevicePerUser());
       })
       .catch((err) => {
         errorToast(err.response.data.message);
       });
   };
-  //@ TO Fetch All the Device Whic User Registered
-  const FetchAllDevice = () => {
-    setIsLoading(true);
-    var USER_ID = sessionStorage.getItem("user-id");
-    var TOKEN = sessionStorage.getItem("token");
-    var API_URL = GlobalConstants.domain + "api/device/" + USER_ID;
-    let headerConfig = {
-      headers: {
-        accept: "application/json",
-        authorization: "Bearer " + TOKEN,
-      },
-    };
-    axios
-      .get(API_URL, headerConfig)
-      .then((response) => {
-        setTableData(response.data.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsLoading(false);
-      });
-  };
-  useEffect(() => {
-    FetchAllDevice();
-  }, []);
   //@ TO Clear All The State From Modal
   const CancelClicked = () => {
     setDeviceName("");
@@ -216,7 +199,7 @@ function UserDevice() {
           <div className="mt-5">
             <DataTable
               columns={columns}
-              data={TableData}
+              data={DevicePerUserData}
               highlightOnHover
               fixedHeader={true}
               fixedHeaderScrollHeight="80vh"
