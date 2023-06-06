@@ -25,6 +25,36 @@ function DeviceData() {
       sortable: true,
     },
   ];
+  const conditionalRowStyles = [
+    {
+      when: (row) => row.value > 100,
+      style: {
+        backgroundColor: "rgb(248 113 113)",
+        color: "white",
+      },
+    },
+    {
+      when: (row) => row.value >= 90 && row.value < 100,
+      style: {
+        backgroundColor: "rgb(251 146 60)",
+        color: "white",
+      },
+    },
+    {
+      when: (row) => row.value >= 70 && row.value < 90,
+      style: {
+        backgroundColor: "rgb(45 212 191)",
+        color: "white",
+      },
+    },
+    {
+      when: (row) => row.value >= 20 && row.value < 70,
+      style: {
+        backgroundColor: "rgb(45 212 191)",
+        color: "white",
+      },
+    },
+  ];
   const Heartbeatcolumns = [
     {
       name: "Sr No",
@@ -137,6 +167,7 @@ function DeviceData() {
             pagination
             paginationPerPage={5}
             title={"ECG Data"}
+            conditionalRowStyles={conditionalRowStyles}
           />
         </div>
         <div className="mt-5 lg:w-[40%]">
@@ -150,6 +181,7 @@ function DeviceData() {
             pagination
             paginationPerPage={5}
             title={"Heartbeat Data"}
+            conditionalRowStyles={conditionalRowStyles}
           />
         </div>
         <div className="mt-5 lg:w-[40%]">
@@ -163,6 +195,7 @@ function DeviceData() {
             pagination
             paginationPerPage={5}
             title={"Temparature Data"}
+            conditionalRowStyles={conditionalRowStyles}
           />
         </div>
         <div className="mt-5 lg:w-[40%]">
@@ -175,6 +208,7 @@ function DeviceData() {
             customStyles={customStyles}
             pagination
             paginationPerPage={5}
+            conditionalRowStyles={conditionalRowStyles}
             title={"Oxygen Data"}
           />
         </div>
