@@ -6,6 +6,7 @@ import RegisterPage from "./components/Register/RegisterPage";
 import DashboardPage from "./components/Dashboard/DashboardPage";
 import ProfilePage from "./components/Profile/ProfilePage";
 import UserDevice from "./components/Device/UserDevice";
+import DeviceData from "./components/Device/DeviceData";
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
         <Route
           path="/user/device"
           element={<GuardedRoute Component={UserDevice} />}
+        />
+        <Route
+          path="/device/data"
+          element={<GuardedRoute Component={DeviceData} />}
         />
         <Route
           path="/user/profile"

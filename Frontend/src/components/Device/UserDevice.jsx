@@ -7,8 +7,11 @@ import axios from "axios";
 import { errorToast, successToast, warnToast } from "../../utils/GlobalToaster";
 import { ToastContainer } from "react-toastify";
 import Loader from "../../utils/Loader/Loader";
+import { useDispatch } from "react-redux";
+import { resteDevicePerUser } from "../../redux/getAllDevicePerUserSlice";
 
 function UserDevice() {
+  const dispatch = useDispatch();
   const [isLoadig, setIsLoading] = useState(false);
   const [TableData, setTableData] = useState([]);
   const [AddDevicePopup, setAddDevicePopup] = useState(false);
@@ -89,6 +92,7 @@ function UserDevice() {
           errorToast(response.data.message);
         }
         FetchAllDevice();
+        dispatch(resteDevicePerUser());
       })
       .catch((err) => {
         errorToast(err.response.data.message);
@@ -112,6 +116,7 @@ function UserDevice() {
       .then((response) => {
         errorToast(response.data.message);
         FetchAllDevice();
+        dispatch(resteDevicePerUser());
       })
       .catch((err) => {
         errorToast(err.response.data.message);
@@ -147,6 +152,7 @@ function UserDevice() {
         setAddDevicePopup(false);
         FetchAllDevice();
         CancelClicked();
+        dispatch(resteDevicePerUser());
       })
       .catch((err) => {
         errorToast(err.response.data.message);
