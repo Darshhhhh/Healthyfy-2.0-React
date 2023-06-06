@@ -1,43 +1,39 @@
 import axios from "axios";
 import Navbar from "../Navbar/Navbar";
 import { GlobalConstants } from "../../utils/GlobalConstants";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../../utils/Loader/Loader";
+import { useDispatch, useSelector } from "react-redux";
+import { getDevicePerUser } from "../../redux/getAllDevicePerUserSlice";
 
 const DashboardPage = () => {
-  const [isLoadig, setIsLoading] = useState(false);
-  const [TableData, setTableData] = useState([]);
+  const dispatch = useDispatch();
+  const DevicePerUserData = useSelector((state) => state.DevicePerUser);
   const [SelectedDeviceID, setSelectedDeviceID] = useState("");
-  const OnlyActiveDevice = TableData.filter((e) => e.isActive === true); //@ Only Active Device
-  const FilteredData = TableData.filter((x) => x._id === SelectedDeviceID); //@ To Fetch Data of Selected Device
-  console.log(FilteredData);
-  console.log(OnlyActiveDevice);
-  //@ TO Fetch All the Device Whic User Registered
-  const FetchAllDevice = () => {
-    setIsLoading(true);
-    var USER_ID = sessionStorage.getItem("user-id");
-    var TOKEN = sessionStorage.getItem("token");
-    var API_URL = GlobalConstants.domain + "api/device/" + USER_ID;
-    let headerConfig = {
-      headers: {
-        accept: "application/json",
-        authorization: "Bearer " + TOKEN,
-      },
-    };
-    axios
-      .get(API_URL, headerConfig)
-      .then((response) => {
-        setTableData(response.data.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
+  const [isLoadig, setIsLoading] = useState(false);
+
+  //@ Only Active Device
+  const OnlyActiveDevice = DevicePerUserData.filter((e) => e.isActive === true);
+
+  //@ To Fetch Data of Selected Device
+  const FilteredData = DevicePerUserData.filter(
+    (x) => x._id === SelectedDeviceID
+  );
+
+  useEffect(() => {
+    //@ TO Fetch All the Device Which User Registered
+    if (DevicePerUserData?.length === 0) {
+      console.log("Fetching Data!");
+      setIsLoading(true);
+      Promise.all([dispatch(getDevicePerUser())]).then(() => {
         setIsLoading(false);
       });
-  };
-  useEffect(() => {
-    FetchAllDevice();
+    } else {
+      setIsLoading(false);
+      console.log("Data Already Fetched!");
+    }
   }, []);
+
   return (
     <>
       <Navbar />
@@ -62,7 +58,7 @@ const DashboardPage = () => {
             onChange={(e) => setSelectedDeviceID(e.target.value)}
           >
             <option value={""}>Select Device</option>
-            {TableData?.map((value, index) => (
+            {OnlyActiveDevice?.map((value, index) => (
               <option value={value?._id} key={value?._id + index}>
                 {value?.devicename}
               </option>
