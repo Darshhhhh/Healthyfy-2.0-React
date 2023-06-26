@@ -11,7 +11,7 @@ const navigation = [
     current: true,
   },
   { name: "Device", href: "/user/device", current: false },
-  { name: "Contact Us", href: "/contact-us", current: false },
+  // { name: "Contact Us", href: "/contact-us", current: false },
 ];
 
 function classNames(...classes) {
@@ -128,18 +128,10 @@ function Navbar() {
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-28 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                       <Menu.Item>
                         <p className="block px-4 py-2 text-sm text-center text-gray-700 w-full">
-                          {sessionStorage.getItem("user-email") === null ||
-                          sessionStorage.getItem("user-email") === undefined
+                          {sessionStorage.getItem("UserName") === null ||
+                          sessionStorage.getItem("UserName") === undefined
                             ? "User"
-                            : sessionStorage
-                                .getItem("user-email")
-                                ?.split("@")[0]
-                                .charAt(0)
-                                .toUpperCase() +
-                              sessionStorage
-                                .getItem("user-email")
-                                ?.split("@")[0]
-                                .slice(1)}
+                            : sessionStorage.getItem("UserName")}
                         </p>
                       </Menu.Item>
                       <Menu.Item>

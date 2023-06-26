@@ -5,8 +5,11 @@ const validateToken = require("../middleware/ValidateTokenHandler");
 
 deviceRouter.post("/create", validateToken, deviceController.postDevice);
 deviceRouter.get("/:userid", validateToken, deviceController.getDeviceByuserId);
-deviceRouter.post("/deletedevice", validateToken, deviceController.deleteDevice);
-
+deviceRouter.post(
+  "/deletedevice",
+  validateToken,
+  deviceController.deleteDevice
+);
 
 deviceRouter.post("/addData", validateToken, deviceController.addDeviceData);
 deviceRouter.get(

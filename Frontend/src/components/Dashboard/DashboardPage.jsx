@@ -89,6 +89,8 @@ const DashboardPage = () => {
             <Loader />
           ) : (
             <div className="px-10 flex flex-wrap gap-10 justify-center my-10">
+              {filteredItems.length === 0 &&
+                "No Active Device Found Please Active or Add new Device!"}
               {filteredItems?.map((x, index) => (
                 <div
                   className="w-[230px] h-[200px] text-center p-5 rounded-xl drop-shadow-lg"
